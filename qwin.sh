@@ -78,7 +78,7 @@ Reinstall_OS() {
     --------------------
     Enter the number:"
     read System_ID
-    read -p "(Option)Set passwd:" Set_pass
+    read -p "(Option)Set passwd or Press 'Enter' to skip:" Set_pass
     if [ -z "$Set_pass" ]; then
         echo "Default password:Vicer"
     fi
