@@ -78,7 +78,11 @@ Reinstall_OS() {
     --------------------
     Enter the number:"
     read System_ID
-    read -t 3 -p "(Option)Set passwd:" Set_pass
+    read -p "(Option)Set passwd:" Set_pass
+    if [ -z "$Set_pass" ]; then
+        echo "Default password:Vicer"
+    fi
+
     case "$System_ID" in
     1)
         bash reins.sh -u 18.04 -v 64 -a -p "$Set_pass"
