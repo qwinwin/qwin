@@ -16,7 +16,7 @@ Check_OS() {
     elif cat /proc/version | grep -Eqi "centos|red hat|redhat"; then
         release="centos"
     else
-        release="Doesn't know"
+        release="Unknown"
     fi
 }
 Get_IP() {
@@ -31,6 +31,21 @@ Get_IP() {
         fi
     fi
 }
+get_opsy() {
+    [ -f /etc/redhat-release ] && awk '{print ($1,$3~/^[0-9]/?$3:$4)}' /etc/redhat-release && return
+    [ -f /etc/os-release ] && awk -F'[= "]' '/PRETTY_NAME/{print $3,$4,$5}' /etc/os-release && return
+    [ -f /etc/lsb-release ] && awk -F'[="]+' '/DESCRIPTION/{print $2}' /etc/lsb-release && return
+}
+
+opsy=$(get_opsy)
+arch=$(uname -m)
+lbit=$(getconf LONG_BIT)
+kern=$(uname -r)
+
+Check_Docker_status() {
+    echo
+}
+
 Reinstall_OS() {
     Check_OS
     case "$release" in
