@@ -165,6 +165,11 @@ case "${OPTION}" in
 4)
     Install_SSRMU
     ;;
+5)
+    Install_BBR
+    Install_Docker
+    Install_SSRMU
+    ;;
 *)
     echo "Worong option"
     ;;
