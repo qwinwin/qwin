@@ -69,8 +69,7 @@ Reinstall_OS() {
     esac
     wget https://raw.githubusercontent.com/qwinwin/qwin/master/reins.sh && chmod +x reins.sh
     clear
-    echo -n "Select system:
-    --------------------
+    echo -n "--------------------
     Default passwd:Vicer
     --------------------
     [1] Ubuntu 18.04 x64
