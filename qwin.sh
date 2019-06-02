@@ -79,7 +79,7 @@ Reinstall_OS() {
     --------------------
     Enter the number:"
     read System_ID
-    read -s -t 3 -p "(Option)Set passwd:" Set_pass
+    read -t 3 -p "(Option)Set passwd:" Set_pass
     case "$System_ID" in
     1)
         bash reins.sh -u 18.04 -v 64 -a -p "$Set_pass"
@@ -131,7 +131,7 @@ Install_SSRMU() {
     read -p "Enter MYSQL_HOST:" MYSQL_HOST
     read -p "Enter MYSQL_DB:" MYSQL_DB
     read -p "Enter MYSQL_USER:" MYSQL_USER
-    read -s -p "Enter MYSQL_PASS:" MYSQL_PASS
+    read -p "Enter MYSQL_PASS:" MYSQL_PASS
     docker run -d --name=ss -e NODE_ID=${NODE_ID} -e SPEEDTEST=6 -e CLOUDSAFE=0 -e AUTOEXEC=0 -e ANTISSATTACK=0 -e API_INTERFACE=glzjinmod -e MYSQL_HOST=${MYSQL_HOST} -e MYSQL_USER=${MYSQL_USER} -e MYSQL_PASS=${MYSQL_PASS} -e MYSQL_DB=${MYSQL_DB} --network=host --restart=always shirolin1997/ssrmu
 }
 Get_IP
