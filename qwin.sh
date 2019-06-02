@@ -69,7 +69,7 @@ Reinstall_OS() {
     esac
     wget https://raw.githubusercontent.com/qwinwin/qwin/master/reins.sh && chmod +x reins.sh
     clear
-    echo -n "Select the system to reinstall:
+    echo -n "Select system:
     --------------------
     Default passwd:Vicer
     --------------------
