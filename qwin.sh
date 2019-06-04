@@ -137,6 +137,17 @@ Install_SSRMU() {
     read -p "Enter MYSQL_PASS:" MYSQL_PASS
     docker run -d --name=ss -e NODE_ID=${NODE_ID} -e SPEEDTEST=6 -e CLOUDSAFE=0 -e AUTOEXEC=0 -e ANTISSATTACK=0 -e API_INTERFACE=glzjinmod -e MYSQL_HOST=${MYSQL_HOST} -e MYSQL_USER=${MYSQL_USER} -e MYSQL_PASS=${MYSQL_PASS} -e MYSQL_DB=${MYSQL_DB} --network=host --restart=always shirolin1997/ssrmu
 }
+FixChinese() {
+    locale >locale.log
+    if [ ! $(cat locale.log | grep "en_US.UTF-8" >/dev/null) ]; then
+        locale-gen en_US.UTF-8
+    fi
+    rm locale.log
+    echo "export LC_ALL=en_US.UTF-8" >>/etc/profile
+    source /etc/profile
+
+}
+
 Get_IP
 echo "-------- System Information --------
 OS      : $opsy
@@ -148,6 +159,8 @@ IP      : $ip
 [  2  ] : Install BBR
 [  3  ] : Install Docker
 [  4  ] : Install SSRMU
+[  5  ] : Install BBR+Docker+SSRMU 
+[  6  ] : Fix Chinese garbled(Ubuntu) 
 ------------------------------------"
 read -p "PLEASE SELECT YOUR OPTION:" OPTION
 
@@ -169,6 +182,9 @@ case "${OPTION}" in
     Install_BBR
     Install_Docker
     Install_SSRMU
+    ;;
+6)
+    FixChinese
     ;;
 *)
     echo "Worong option"
