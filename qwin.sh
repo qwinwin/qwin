@@ -139,12 +139,11 @@ Install_SSRMU() {
 }
 FixChinese() {
     locale >locale.log
-    if [ ! $(cat locale.log | grep "en_US.UTF-8" >/dev/null) ]; then
+    if $(grep -q "en_US.UTF-8" locale.log); then
         locale-gen en_US.UTF-8
     fi
     rm locale.log
-    echo "export LC_ALL=en_US.UTF-8" >>/etc/profile
-    source /etc/profile
+    echo "export LC_ALL=en_US.UTF-8" >>/etc/profile && source /etc/profile
 
 }
 
