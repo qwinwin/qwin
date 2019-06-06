@@ -139,12 +139,24 @@ Install_SSRMU() {
 }
 FixChinese() {
     locale >locale.log
-    if $(grep -q "en_US.UTF-8" locale.log); then
+    grep -q "UTF-8" locale.log
+    if [ "$?" != 0 ]; then
         locale-gen en_US.UTF-8
     fi
     rm locale.log
     echo "export LC_ALL=en_US.UTF-8" >>/etc/profile && source /etc/profile
 
+}
+Reboot_OS() {
+    echo
+    echo -e "${green}Info:${plain} The system needs to reboot."
+    read -p "Do you want to restart system? [y/n]" is_reboot
+    if [[ ${is_reboot} == "y" || ${is_reboot} == "Y" ]]; then
+        reboot
+    else
+        echo -e "${green}Info:${plain} Reboot has been canceled..."
+        exit 0
+    fi
 }
 
 Get_IP
@@ -184,6 +196,7 @@ case "${OPTION}" in
     ;;
 6)
     FixChinese
+    Reboot_OS
     ;;
 *)
     echo "Worong option"
