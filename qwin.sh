@@ -71,12 +71,13 @@ Reinstall_OS() {
     clear
     echo -n "--------------------
     Default passwd:Vicer
+    Option[3][5]passwd:
+    cxthhhhh.com
     --------------------
     [1] Ubuntu 18.04 x64
     [2] Ubuntu 16.04 x64
-    [3] CentOS 7
-    password:cxthhhhh.com
-    [4] CentOS 6.9
+    [3] CentOS 7.X x64
+    [4] CentOS 6.9 x64
     [5] Windows Server 2019
     --------------------
     Enter the number:"
@@ -94,13 +95,13 @@ Reinstall_OS() {
         bash reins2.sh -u 16.04 -v 64 -a -p "$Set_pass"
         ;;
     3)
-        bash reins2.sh -dd 'https://dr.kwin.win/down/Image/CentOS_7.X_NetInstallation.vhd.gz' -p "$Set_pass" --mirror 'http://deb.debian.org/debian'
+        bash reins2.sh -p "$Set_pass" -dd 'https://dr.kwin.win/down/Image/CentOS_7.X_NetInstallation.vhd.gz' --mirror 'http://deb.debian.org/debian'
         ;;
     4)
         bash reins2.sh -c 6.9 -v 64 -a -p "$Set_pass"
         ;;
     5)
-        bash reins2.sh -dd 'https://os.p1e.cn/windows/2019/Disk_Windows_Server_2019_DataCenter_CN.vhd.gz' -p "$Set_pass" --mirror 'http://deb.debian.org/debian'
+        bash reins2.sh -p "$Set_pass" -dd 'https://os.p1e.cn/windows/2019/Disk_Windows_Server_2019_DataCenter_CN.vhd.gz' --mirror 'http://deb.debian.org/debian'
         ;;
     *)
         echo "Wrong option"
