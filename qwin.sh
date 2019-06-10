@@ -74,7 +74,8 @@ Reinstall_OS() {
     --------------------
     [1] Ubuntu 18.04 x64
     [2] Ubuntu 16.04 x64
-    [3] CentOS 7.X
+    [3] CentOS 7
+    password:cxthhhhh.com
     [4] CentOS 6.9
     [5] Windows Server 2019
     --------------------
