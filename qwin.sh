@@ -67,14 +67,16 @@ Reinstall_OS() {
         exit 1
         ;;
     esac
-    wget https://raw.githubusercontent.com/qwinwin/qwin/master/reins.sh && chmod +x reins.sh
+    wget https://raw.githubusercontent.com/qwinwin/qwin/dev/reins2.sh && chmod +x reins2.sh
     clear
     echo -n "--------------------
     Default passwd:Vicer
     --------------------
     [1] Ubuntu 18.04 x64
-    [2] Ubuntu 16.04 x64     
-    [3] CentOS 6.9
+    [2] Ubuntu 16.04 x64
+    [3] CentOS 7.X
+    [4] CentOS 6.9
+    [5] Windows Server 2019
     --------------------
     Enter the number:"
     read System_ID
@@ -85,13 +87,19 @@ Reinstall_OS() {
 
     case "$System_ID" in
     1)
-        bash reins.sh -u 18.04 -v 64 -a -p "$Set_pass"
+        bash reins2.sh -u 18.04 -v 64 -a -p "$Set_pass"
         ;;
     2)
-        bash reins.sh -u 16.04 -v 64 -a -p "$Set_pass"
+        bash reins2.sh -u 16.04 -v 64 -a -p "$Set_pass"
         ;;
     3)
-        bash reins.sh -c 6.9 -v 64 -a -p "$Set_pass"
+        bash reins2.sh -dd 'https://dr.kwin.win/down/Image/CentOS_7.X_NetInstallation.vhd.gz' -p "$Set_pass" --mirror 'http://deb.debian.org/debian'
+        ;;
+    4)
+        bash reins2.sh -c 6.9 -v 64 -a -p "$Set_pass"
+        ;;
+    5)
+        bash reins2.sh -dd 'https://os.p1e.cn/windows/2019/Disk_Windows_Server_2019_DataCenter_CN.vhd.gz' -p "$Set_pass" --mirror 'http://deb.debian.org/debian'
         ;;
     *)
         echo "Wrong option"
