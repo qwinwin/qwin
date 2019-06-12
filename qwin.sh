@@ -101,7 +101,7 @@ Reinstall_OS() {
         bash reins2.sh -c 6.9 -v 64 -a -p "$Set_pass"
         ;;
     5)
-        bash reins2.sh -p "$Set_pass" -dd 'https://os.p1e.cn/windows/2019/Disk_Windows_Server_2019_DataCenter_CN.vhd.gz' --mirror 'http://deb.debian.org/debian'
+        bash reins2.sh -p "$Set_pass" -dd 'https://dr.kwin.win/down/Image/Disk_Windows_Server_2019_DataCenter_CN.vhd.gz' --mirror 'http://deb.debian.org/debian'
         ;;
     *)
         echo "Wrong option"
