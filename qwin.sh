@@ -69,7 +69,8 @@ Reinstall_OS() {
     esac
     wget https://raw.githubusercontent.com/qwinwin/qwin/dev/reins2.sh && chmod +x reins2.sh
     clear
-    echo -n "--------------------
+    echo -n "
+    --------------------
     Default passwd:Vicer
     Option[3][5]passwd:
     cxthhhhh.com
