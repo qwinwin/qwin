@@ -150,7 +150,7 @@ Install_SSRMU() {
 }
 FixChinese() {
     locale >locale.log
-    grep -q "UTF-8" locale.log
+    grep -q "en_US.UTF-8" locale.log
     if [ "$?" != 0 ]; then
         locale-gen en_US.UTF-8
     fi
