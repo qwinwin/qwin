@@ -80,6 +80,7 @@ Reinstall_OS() {
     [3] CentOS 7.X x64
     [4] CentOS 6.9 x64
     [5] Windows Server 2019
+    [6] Debian 9 x64
     --------------------
     Enter the number:"
     read System_ID
@@ -103,6 +104,9 @@ Reinstall_OS() {
         ;;
     5)
         bash reins2.sh -p "$Set_pass" -dd 'https://dr.kwin.win/down/Image/Disk_Windows_Server_2019_DataCenter_CN.vhd.gz' --mirror 'http://deb.debian.org/debian'
+        ;;
+    6)
+        bash reins2.sh -d 9 -v 64 -a -p "$Set_pass"
         ;;
     *)
         echo "Wrong option"
