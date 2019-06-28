@@ -117,7 +117,7 @@ Reinstall_OS() {
 }
 
 Install_BBR() {
-    wget https://raw.githubusercontent.com/qwinwin/qwin/dev/bbr.sh && chmod +x bbr.sh && ./bbr.sh
+    wget --no-check--certificate https://raw.githubusercontent.com/qwinwin/qwin/dev/bbr.sh && chmod +x bbr.sh && ./bbr.sh
     #    cd $(dirname $0) && ;
 }
 
@@ -131,7 +131,7 @@ Install_Docker() {
     debian)
         apt-get remove docker docker-engine docker.io containerd runc
         apt-get update
-        apt-get install \
+        apt-get -y install  \
         apt-transport-https \
         ca-certificates \
         curl \
@@ -143,7 +143,7 @@ Install_Docker() {
         $(lsb_release -cs) \
         stable"
         apt-get update
-        apt-get install docker-ce docker-ce-cli containerd.io && echo "Install Dokcer Successfully!"
+        apt-get -y install docker-ce docker-ce-cli containerd.io && echo "Install Dokcer Successfully!"
         systemctl start docker
         systemctl enable docker
         ;;
