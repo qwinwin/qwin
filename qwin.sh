@@ -117,7 +117,7 @@ Reinstall_OS() {
 }
 
 Install_BBR() {
-    wget --no-check--certificate https://raw.githubusercontent.com/qwinwin/qwin/dev/bbr.sh && chmod +x bbr.sh && ./bbr.sh
+    wget --no-check-certificate https://raw.githubusercontent.com/qwinwin/qwin/dev/bbr.sh && chmod +x bbr.sh && ./bbr.sh
     #    cd $(dirname $0) && ;
 }
 
