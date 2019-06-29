@@ -43,7 +43,7 @@ lbit=$(getconf LONG_BIT)
 kern=$(uname -r)
 
 Check_Docker() {
-    docker -v >/dev/null 2>&1
+    docker -v &>/dev/null
     if [ $? -eq 0 ]; then
         echo "Docker already installed"
     else
