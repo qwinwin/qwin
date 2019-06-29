@@ -97,13 +97,13 @@ Reinstall_OS() {
         bash reins2.sh -u 16.04 -v 64 -a -p "$Set_pass"
         ;;
     3)
-        bash reins2.sh -p "$Set_pass" -dd 'https://dr.kwin.win/down/Image/CentOS_7.X_NetInstallation.vhd.gz' --mirror 'http://deb.debian.org/debian'
+        bash reins2.sh -p -dd 'https://dr.kwin.win/down/Image/CentOS_7.X_NetInstallation.vhd.gz' --mirror 'http://deb.debian.org/debian'
         ;;
     4)
         bash reins2.sh -c 6.9 -v 64 -a -p "$Set_pass"
         ;;
     5)
-        bash reins2.sh -p "$Set_pass" -dd 'https://dr.kwin.win/down/Image/Disk_Windows_Server_2019_DataCenter_CN.vhd.gz' --mirror 'http://deb.debian.org/debian'
+        bash reins2.sh -p -dd 'https://dr.kwin.win/down/Image/Disk_Windows_Server_2019_DataCenter_CN.vhd.gz' --mirror 'http://deb.debian.org/debian'
         ;;
     6)
         bash reins2.sh -d 9 -v 64 -a -p "$Set_pass"
@@ -131,7 +131,7 @@ Install_Docker() {
     debian)
         apt-get remove docker docker-engine docker.io containerd runc
         apt-get update
-        apt-get -y install  \
+        apt-get -y install \
         apt-transport-https \
         ca-certificates \
         curl \
@@ -172,14 +172,8 @@ Install_SSRMU() {
     docker run -d --name=ss -e NODE_ID=${NODE_ID} -e SPEEDTEST=6 -e CLOUDSAFE=0 -e AUTOEXEC=0 -e ANTISSATTACK=0 -e API_INTERFACE=glzjinmod -e MYSQL_HOST=${MYSQL_HOST} -e MYSQL_USER=${MYSQL_USER} -e MYSQL_PASS=${MYSQL_PASS} -e MYSQL_DB=${MYSQL_DB} --network=host --restart=always shirolin1997/ssrmu
 }
 FixChinese() {
-    locale >locale.log
-    grep -q "en_US.UTF-8" locale.log
-    if [ "$?" != 0 ]; then
-        locale-gen en_US.UTF-8
-    fi
-    rm locale.log
-    echo "export LC_ALL=en_US.UTF-8" >>/etc/profile && source /etc/profile
-
+    locale | grep -q "en_US.UTF-8" || locale-gen en_US.UTF-8
+    echo "export LC_ALL=en_US.UTF-8" >>/etc/profile
 }
 Reboot_OS() {
     echo
