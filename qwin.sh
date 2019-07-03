@@ -97,13 +97,13 @@ Reinstall_OS() {
         bash reins2.sh -u 16.04 -v 64 -a -p "$Set_pass"
         ;;
     3)
-        bash reins2.sh -p -dd 'https://dr.kwin.win/down/Image/CentOS_7.X_NetInstallation.vhd.gz' --mirror 'http://deb.debian.org/debian'
+        bash reins2.sh -dd 'https://dr.kwin.win/down/Image/CentOS_7.X_NetInstallation.vhd.gz' --mirror 'http://deb.debian.org/debian'
         ;;
     4)
         bash reins2.sh -c 6.9 -v 64 -a -p "$Set_pass"
         ;;
     5)
-        bash reins2.sh -p -dd 'https://dr.kwin.win/down/Image/Disk_Windows_Server_2019_DataCenter_CN.vhd.gz' --mirror 'http://deb.debian.org/debian'
+        bash reins2.sh -dd 'https://dr.kwin.win/down/Image/Disk_Windows_Server_2019_DataCenter_CN.vhd.gz' --mirror 'http://deb.debian.org/debian'
         ;;
     6)
         bash reins2.sh -d 9 -v 64 -a -p "$Set_pass"
