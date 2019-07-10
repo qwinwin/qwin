@@ -204,7 +204,7 @@ Reboot_OS() {
 Zabbix_agent() {
     honame=$(hostname)
     docker pull zabbix/zabbix-agent
-    docker run --name zabbix-agent -e ZBX_HOSTNAME="$honame" -e ZBX_SERVER_HOST="172.104.104.49" -d zabbix/zabbix-agent:tag
+    docker run --name zabbix-agent --restart=always -e ZBX_HOSTNAME="$honame" -e ZBX_SERVER_HOST="172.104.104.49" -d zabbix/zabbix-agent 
 }
 
 Get_IP
