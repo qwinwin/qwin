@@ -206,7 +206,7 @@ Reboot_OS() {
 Zabbix_agent() {
     Check_OS
     honame=$(hostname)
-    docker run --name zbx-agent -e ZBX_HOSTNAME="$honame" -e ZBX_SERVER_HOST="172.104.104.49" --privileged --restart=always -d zabbix/zabbix-agent:$release-4.0-latest
+    docker run --name zbx-agent --link 172.104.104.49:10051 -e ZBX_HOSTNAME="$honame" -e ZBX_SERVER_HOST="172.104.104.49" --privileged --restart=always -d zabbix/zabbix-agent:$release-4.0-latest
 }
 
 Get_IP
