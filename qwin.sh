@@ -202,24 +202,25 @@ Reboot_OS() {
     fi
 }
 Zabbix_agent() {
+    Check_OS
     honame=$(hostname)
     docker pull zabbix/zabbix-agent
-    docker run --name zabbix-agent --restart=always -e ZBX_HOSTNAME="$honame" -e ZBX_SERVER_HOST="172.104.104.49" -d zabbix/zabbix-agent 
+    docker run --name zbx-agent -e ZBX_HOSTNAME="$honame" -e ZBX_SERVER_HOST="172.104.104.49" --privileged --restart=always -d zabbix/zabbix-agent:$release-4.0-latest
 }
 
 Get_IP
-echo "-------- System Information --------
-OS      : $opsy
-Arch    : $arch ($lbit Bit)
-Kernel  : $kern
-IP      : $ip
-------------------------------------
-[  1  ] : Reinstall OS
-[  2  ] : Install BBR
-[  3  ] : Install Docker
-[  4  ] : Install SSRMU
-[  5  ] : Install BBR+Docker+SSRMU 
-[  6  ] : Fix Chinese garbled(Ubuntu) 
+    echo "-------- System Information --------
+    OS      : $opsy
+    Arch    : $arch ($lbit Bit)
+    Kernel  : $kern
+    IP      : $ip
+    ------------------------------------
+    [  1  ] : Reinstall OS
+    [  2  ] : Install BBR
+    [  3  ] : Install Docker
+    [  4  ] : Install SSRMU
+    [  5  ] : Install BBR+Docker+SSRMU 
+    [  6  ] : Fix Chinese garbled(Ubuntu) 
 ------------------------------------"
 read -p "PLEASE SELECT YOUR OPTION:" OPTION
 
