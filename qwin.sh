@@ -168,6 +168,8 @@ Install_Docker() {
         yum install -y docker-ce && echo "Install Dokcer Successfully!"
         systemctl start docker
         systemctl enable docker
+        systemctl stop firewalld
+        systemctl disable firewalld
         ;;
     *)
         echo "Only support Ubuntu/Debian and Centos"
