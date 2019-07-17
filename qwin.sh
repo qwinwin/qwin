@@ -193,7 +193,6 @@ FixChinese() {
     echo "export LC_ALL=en_US.UTF-8" >>/etc/profile
 }
 Reboot_OS() {
-    echo
     echo -e " The system needs to reboot."
     read -p "Do you want to restart system? [y/n]" is_reboot
     if [[ ${is_reboot} == "y" || ${is_reboot} == "Y" ]]; then
@@ -210,7 +209,7 @@ Zabbix_agent() {
 }
 
 Get_IP
-    echo "-------- System Information --------
+echo "-------- System Information --------
     OS      : $opsy
     Arch    : $arch ($lbit Bit)
     Kernel  : $kern
