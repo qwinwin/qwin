@@ -118,10 +118,19 @@ Reinstall_OS() {
 
 Install_BBR() {
     wget --no-check-certificate https://raw.githubusercontent.com/qwinwin/qwin/dev/bbr.sh && chmod +x bbr.sh && ./bbr.sh
-    #    cd $(dirname $0) && ;
 }
 
 Install_Docker() {
+    Check_OS
+    case "$release" in
+    ubuntu | debian)
+        apt install -y curl 
+        ;;
+    centos)
+        yum install -y curl
+        ;;
+    *)
+        ;;
     curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh --mirror Aliyun
     systemctl enable docker
 }
