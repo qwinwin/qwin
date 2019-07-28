@@ -122,60 +122,8 @@ Install_BBR() {
 }
 
 Install_Docker() {
-    Check_OS
-    case "$release" in
-    ubuntu)
-        apt-get remove docker docker-engine docker.io containerd runc
-        apt-get update
-        apt-get -y install \
-        apt-transport-https \
-        ca-certificates \
-        curl \
-        gnupg-agent \
-        software-properties-common
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-        add-apt-repository \
-        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-        $(lsb_release -cs) \
-        stable"
-        apt-get update
-        apt-get -y install docker-ce docker-ce-cli containerd.io && echo "Install Dokcer Successfully!"
-        systemctl start docker
-        systemctl enable docker
-        ;;
-    debian)
-        apt-get remove docker docker-engine docker.io containerd runc
-        apt-get update
-        apt-get -y install \
-        apt-transport-https \
-        ca-certificates \
-        curl \
-        gnupg2 \
-        software-properties-common
-        curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
-        add-apt-repository \
-        "deb [arch=amd64] https://download.docker.com/linux/debian \
-        $(lsb_release -cs) \
-        stable"
-        apt-get update
-        apt-get -y install docker-ce docker-ce-cli containerd.io && echo "Install Dokcer Successfully!"
-        systemctl start docker
-        systemctl enable docker
-        ;;
-    centos)
-        yum update -y && yum install -y yum-utils device-mapper-persistent-data lvm2
-        yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-        yum install -y docker-ce && echo "Install Dokcer Successfully!"
-        systemctl start docker
-        systemctl enable docker
-        systemctl stop firewalld
-        systemctl disable firewalld
-        ;;
-    *)
-        echo "Only support Ubuntu/Debian and Centos"
-        ;;
-    esac
-
+    curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh --mirror Aliyun
+    systemctl enable docker
 }
 Install_SSRMU() {
     Check_Docker
