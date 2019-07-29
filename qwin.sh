@@ -124,13 +124,12 @@ Install_Docker() {
     Check_OS
     case "$release" in
     ubuntu | debian)
-        apt install -y curl 
+        apt install -y curl
         ;;
     centos)
         yum install -y curl
         ;;
-    *)
-        ;;
+    esac
     curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh --mirror Aliyun
     systemctl enable docker
 }
@@ -158,11 +157,6 @@ Reboot_OS() {
         echo -e "${green}Info:${plain} Reboot has been canceled..."
         exit 0
     fi
-}
-Zabbix_agent() {
-    Check_OS
-    honame=$(hostname)
-    docker run --name zbx-agent --link 172.104.104.49:10051 -e ZBX_HOSTNAME="$honame" -e ZBX_SERVER_HOST="172.104.104.49" --privileged --restart=always -d zabbix/zabbix-agent:$release-4.0-latest
 }
 
 Get_IP
@@ -203,9 +197,6 @@ case "${OPTION}" in
 6)
     FixChinese
     Reboot_OS
-    ;;
-7)
-    Zabbix_agent
     ;;
 *)
     echo "Worong option"
