@@ -130,7 +130,7 @@ Install_Docker() {
         yum install -y curl
         ;;
     esac
-    curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh --mirror Aliyun
+    curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh --mirror Aliyun
     systemctl enable docker
 }
 Install_SSRMU() {
