@@ -124,7 +124,7 @@ Install_Docker() {
     Check_OS
     case "$release" in
     ubuntu | debian)
-        apt install -y curl
+        apt install -y curl sudo
         ;;
     centos)
         yum install -y curl
