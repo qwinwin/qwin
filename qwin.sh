@@ -67,7 +67,7 @@ Reinstall_OS() {
         exit 1
         ;;
     esac
-    wget https://raw.githubusercontent.com/qwinwin/qwin/dev/reins2.sh && chmod +x reins2.sh
+    wget -N https://raw.githubusercontent.com/qwinwin/qwin/dev/reins2.sh && chmod +x reins2.sh
     clear
     echo -n "
     --------------------
@@ -117,7 +117,7 @@ Reinstall_OS() {
 }
 
 Install_BBR() {
-    wget --no-check-certificate https://raw.githubusercontent.com/qwinwin/qwin/dev/bbr.sh && chmod +x bbr.sh && ./bbr.sh
+    wget -N --no-check-certificate https://raw.githubusercontent.com/qwinwin/qwin/dev/bbr.sh && chmod +x bbr.sh && ./bbr.sh
 }
 
 Install_Docker() {
