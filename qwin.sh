@@ -70,19 +70,19 @@ Reinstall_OS() {
     wget -N https://raw.githubusercontent.com/qwinwin/qwin/dev/reins2.sh && chmod +x reins2.sh
     clear
     echo -n "
-    --------------------
-    Default passwd:Vicer
-    Option[3][5]passwd:
-    cxthhhhh.com
-    --------------------
-    [1] Ubuntu 18.04 x64
-    [2] Ubuntu 16.04 x64
-    [3] CentOS 7.X x64
-    [4] CentOS 6.9 x64
-    [5] Windows Server 2019
-    [6] Debian 9 x64
-    --------------------
-    Enter the number:"
+--------------------
+Default passwd:Vicer
+Option[3][5]passwd:
+cxthhhhh.com
+--------------------
+[1] Ubuntu 18.04 x64
+[2] Ubuntu 16.04 x64
+[3] CentOS 7.X x64
+[4] CentOS 6.9 x64
+[5] Windows Server 2019
+[6] Debian 9 x64
+--------------------
+Enter the number:"
     read System_ID
     read -p "(Option)Set passwd or Press 'Enter' to skip:" Set_pass
     if [ -z "$Set_pass" ]; then
@@ -161,17 +161,17 @@ Reboot_OS() {
 
 Get_IP
 echo "-------- System Information --------
-    OS      : $opsy
-    Arch    : $arch ($lbit Bit)
-    Kernel  : $kern
-    IP      : $ip
-    ------------------------------------
-    [  1  ] : Reinstall OS
-    [  2  ] : Install BBR
-    [  3  ] : Install Docker
-    [  4  ] : Install SSRMU
-    [  5  ] : Install BBR+Docker+SSRMU 
-    [  6  ] : Fix Chinese garbled(Ubuntu) 
+OS      : $opsy
+Arch    : $arch ($lbit Bit)
+Kernel  : $kern
+IP      : $ip
+------------------------------------
+[  1  ] : Reinstall OS
+[  2  ] : Install BBR
+[  3  ] : Install Docker
+[  4  ] : Install SSRMU
+[  5  ] : Install BBR+Docker+SSRMU 
+[  6  ] : Fix Chinese garbled(Ubuntu) 
 ------------------------------------"
 read -p "PLEASE SELECT YOUR OPTION:" OPTION
 
