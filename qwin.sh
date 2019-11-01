@@ -76,7 +76,7 @@ Option[3][5]passwd:
 cxthhhhh.com
 --------------------
 [1] Ubuntu 18.04 x64
-[2] Ubuntu 16.04 x64
+[2] Debian 10 x64
 [3] CentOS 7.X x64
 [4] CentOS 6.9 x64
 [5] Windows Server 2019
@@ -94,7 +94,7 @@ Enter the number:"
         bash reins2.sh -u 18.04 -v 64 -a -p "$Set_pass"
         ;;
     2)
-        bash reins2.sh -u 16.04 -v 64 -a -p "$Set_pass"
+        bash reins2.sh -d 10 -v 64 -a -p "$Set_pass"
         ;;
     3)
         bash reins2.sh -dd 'https://dr.kwin.win/down/Image/CentOS_7.X_NetInstallation.vhd.gz' --mirror 'http://deb.debian.org/debian'
