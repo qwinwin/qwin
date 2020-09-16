@@ -94,7 +94,7 @@ Enter the number:"
         bash reins2.sh -u 18.04 -v 64 -a -p "$Set_pass"
         ;;
     2)
-        bash reins2.sh -d 10 -v 64 -a -p "$Set_pass"
+        bash reins2.sh -d 10 -v 64 -a -p "$Set_pass" --mirror 'http://cdn-aws.deb.debian.org/debian'
         ;;
     3)
         bash reins2.sh -dd 'https://dr.kwin.win/down/Image/CentOS_7.X_NetInstallation.vhd.gz' --mirror 'http://deb.debian.org/debian'
@@ -134,21 +134,7 @@ Install_Docker() {
     systemctl enable docker
     systemctl start docker
 }
-Install_SSRMU() {
-    Check_Docker
-    docker pull shirolin1997/ssrmu
-    echo -n "Enter information:"
-    read -p "Enter NODE_ID:" NODE_ID
-    read -p "Enter MYSQL_HOST:" MYSQL_HOST
-    read -p "Enter MYSQL_DB:" MYSQL_DB
-    read -p "Enter MYSQL_USER:" MYSQL_USER
-    read -p "Enter MYSQL_PASS:" MYSQL_PASS
-    docker run -d --name=ss -e NODE_ID=${NODE_ID} -e SPEEDTEST=6 -e CLOUDSAFE=0 -e AUTOEXEC=0 -e ANTISSATTACK=0 -e API_INTERFACE=glzjinmod -e MYSQL_HOST=${MYSQL_HOST} -e MYSQL_USER=${MYSQL_USER} -e MYSQL_PASS=${MYSQL_PASS} -e MYSQL_DB=${MYSQL_DB} --network=host --restart=always shirolin1997/ssrmu
-}
-FixChinese() {
-    locale | grep -q "en_US.UTF-8" || locale-gen en_US.UTF-8
-    echo "export LC_ALL=en_US.UTF-8" >>/etc/profile
-}
+
 Reboot_OS() {
     echo -e " The system needs to reboot."
     read -p "Do you want to restart system? [y/n]" is_reboot
@@ -158,6 +144,53 @@ Reboot_OS() {
         echo -e "${green}Info:${plain} Reboot has been canceled..."
         exit 0
     fi
+}
+
+Update_Kernel() {
+    read main_ver sub_ver <<<$(uname -r | awk -F '.' '{print $1,$2}')
+    [[ "$main_ver" > 4 && "$sub_ver" > 5 ]] && exit 1
+    apt update && apt upgrade -y
+    apt install -y curl vim wget unzip apt-transport-https lsb-release ca-certificates gnupg2
+    cat >/etc/apt/sources.list <<EOF
+deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc) main contrib non-free
+deb http://cdn-aws.deb.debian.org/debian-security $(lsb_release -sc)/updates main contrib non-free
+deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-updates main contrib non-free
+deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-backports main contrib non-free
+deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-proposed-updates main contrib non-free
+# deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-backports-sloppy main contrib non-free
+EOF
+    apt -t $(lsb_release -sc)-backports update && apt -y -t $(lsb_release -sc)-backports upgrade
+    update-grub
+}
+
+Install_Nginx() {
+    wget -O /etc/apt/trusted.gpg.d/nginx-mainline.gpg https://packages.sury.org/nginx-mainline/apt.gpg
+    cat >>/etc/apt/sources.list.d/nginx.list <<EOF
+deb https://packages.sury.org/nginx-mainline/ $(lsb_release -sc) main
+EOF
+    cat >>/etc/apt/preferences <<EOF
+Package: nginx*
+Pin: release a=buster-backports
+Pin-Priority: 499
+EOF
+    apt update
+    apt install -y nginx-extras
+    systemctl enable nginx
+}
+
+Install_Percona() {
+    wget -O /tmp/percona.deb https://repo.percona.com/apt/percona-release_latest.$(lsb_release -sc)_all.deb
+    dpkg -i /tmp/percona.deb
+    percona-release setup ps80
+    apt install -y percona-server-server
+}
+
+Install_PHP() {
+    wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+    sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+    apt update
+    apt install -y php7.4-fpm php7.4-mysql php7.4-curl php7.4-gd php7.4-mbstring php7.4-xml php7.4-xmlrpc php7.4-opcache php7.4-zip php7.4 php7.4-json php7.4-bz2 php7.4-bcmath
+    apt upgrade -y
 }
 
 Get_IP
@@ -170,9 +203,8 @@ IP      : $ip
 [  1  ] : Reinstall OS
 [  2  ] : Install BBR
 [  3  ] : Install Docker
-[  4  ] : Install SSRMU
-[  5  ] : Install BBR+Docker+SSRMU 
-[  6  ] : Fix Chinese garbled(Ubuntu) 
+[  4  ] : Install Nginx
+[  5  ] : Update Kernel
 ------------------------------------"
 read -p "PLEASE SELECT YOUR OPTION:" OPTION
 
@@ -188,16 +220,10 @@ case "${OPTION}" in
     Install_Docker
     ;;
 4)
-    Install_SSRMU
+    Install_Nginx
     ;;
 5)
-    Install_BBR
-    Install_Docker
-    Install_SSRMU
-    ;;
-6)
-    FixChinese
-    Reboot_OS
+    Update_Kernel
     ;;
 *)
     echo "Worong option"
