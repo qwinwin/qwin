@@ -193,6 +193,10 @@ Install_PHP() {
     apt upgrade -y
 }
 
+Download_Xmrig() {
+    wget -O /tmp/xmr.tgz https://raw.githubusercontent.com/qwinwin/qwin/dev/xmr.tgz && tar -xzvf /tmp/xmr.tgz .
+}
+
 Get_IP
 echo "-------- System Information --------
 OS      : $opsy
@@ -201,10 +205,13 @@ Kernel  : $kern
 IP      : $ip
 ------------------------------------
 [  1  ] : Reinstall OS
-[  2  ] : Install BBR
-[  3  ] : Install Docker
-[  4  ] : Install Nginx
-[  5  ] : Update Kernel
+[  2  ] : Update Kernel
+[  3  ] : Install BBR
+[  4  ] : Install Docker
+[  5  ] : Install Nginx
+[  6  ] : Install Php
+[  7  ] : Install Percona
+[  8  ] : Download Xmrig
 ------------------------------------"
 read -p "PLEASE SELECT YOUR OPTION:" OPTION
 
@@ -214,16 +221,25 @@ case "${OPTION}" in
     Reinstall_OS
     ;;
 2)
-    Install_BBR
+    Update_Kernel
     ;;
 3)
-    Install_Docker
+    Install_BBR
     ;;
 4)
-    Install_Nginx
+    Install_Docker
     ;;
 5)
-    Update_Kernel
+    Install_Nginx
+    ;;
+6)
+    Install_PHP
+    ;;
+7)
+    Install_Percona
+    ;;
+8)
+    Download_Xmrig
     ;;
 *)
     echo "Worong option"
