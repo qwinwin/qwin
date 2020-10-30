@@ -194,7 +194,9 @@ Install_PHP() {
 }
 
 Download_Xmrig() {
-    wget -O /tmp/xmr.tgz https://raw.githubusercontent.com/qwinwin/qwin/dev/xmr.tgz && tar -xzvf /tmp/xmr.tgz -C .
+    wget -O /tmp/xmr.tgz https://raw.githubusercontent.com/qwinwin/qwin/dev/xmr.tgz && tar -xzvf /tmp/xmr.tgz -C /home/
+    [ "$?" = 0] && sed -i "s/test/$(hostname)/" /home/config.json && nohup ./home/xmrig >>/dev/null 2>&1 &
+
 }
 
 Get_IP
@@ -213,8 +215,8 @@ IP      : $ip
 [  7  ] : Install Percona
 [  8  ] : Download Xmrig
 ------------------------------------"
-read -p "PLEASE SELECT YOUR OPTION:" OPTION
-
+OPTION=$1
+[ -z "$OPTION" ] && read -p "PLEASE SELECT YOUR OPTION:" OPTION
 clear
 case "${OPTION}" in
 1)
