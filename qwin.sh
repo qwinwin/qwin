@@ -223,12 +223,22 @@ Install_PHP() {
 
 Download_Xmrig() {
     cd /home
-    wget -O /tmp/xmr.tgz https://raw.githubusercontent.com/qwinwin/qwin/dev/xmr.tgz && tar -xzvf /tmp/xmr.tgz -C .
-    [ "$?" = 0 ] && sed -i "s/test/$(hostname)/" config.json && echo 'cd /home;nohup ./xmrig >>/dev/null 2>&1 &'
+    Check_OS
+    case "$release" in
+    debian)
+        wget -O /tmp/xmr.tgz https://raw.githubusercontent.com/qwinwin/qwin/dev/xmr.tgz && tar -xzvf /tmp/xmr.tgz -C .
+        ;;
+    centos)
+        wget -O /tmp/xmr.tgz https://raw.githubusercontent.com/qwinwin/qwin/dev/xmr_centos.tgz && tar -xzvf /tmp/xmr_centos.tgz -C .
+        ;;
+    esac
+    [ "$?" = 0 ] && sed -i "s/test/$(hostname)/" config.json && echo 'cd /home;nohup ./xmrig >>/dev/null 2>&1 &'o
+
 }
 
 Init_CentOS() {
-    yum install epel-release python3 wget -y
+    yum install epel-release python3 wget glibc-devel -y
+    # yum install make gcc gcc-c++ zlib-devel pcre-devel openssl-devel -y
     sed -i '/^SELINUX=/d' /etc/selinux/config && echo 'SELINUX=disabled' >>/etc/selinux/config
     systemctl stop firewalld
     systemctl disable firewalld
