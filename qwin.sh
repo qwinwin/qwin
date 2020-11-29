@@ -37,6 +37,17 @@ get_opsy() {
     [ -f /etc/lsb-release ] && awk -F'[="]+' '/DESCRIPTION/{print $2}' /etc/lsb-release && return
 }
 
+reboot_os() {
+    echo
+    echo -e "${green}Info:${plain} The system needs to reboot."
+    read -p "Do you want to restart system? [y/n]" is_reboot
+    if [[ ${is_reboot} == "y" || ${is_reboot} == "Y" ]]; then
+        reboot
+    else
+        echo -e "${green}Info:${plain} Reboot has been canceled..."
+        exit 0
+    fi
+}
 opsy=$(get_opsy)
 arch=$(uname -m)
 lbit=$(getconf LONG_BIT)
@@ -130,7 +141,7 @@ Install_Docker() {
         yum install -y curl
         ;;
     esac
-    curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh --mirror Aliyun
+    curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh
     systemctl enable docker
     systemctl start docker
 }
@@ -147,11 +158,14 @@ Reboot_OS() {
 }
 
 Update_Kernel() {
-    read main_ver sub_ver <<<$(uname -r | awk -F '.' '{print $1,$2}')
-    [[ "$main_ver" > 4 && "$sub_ver" > 5 ]] && exit 1
-    apt update && apt upgrade -y
-    apt install -y curl vim wget unzip apt-transport-https lsb-release ca-certificates gnupg2
-    cat >/etc/apt/sources.list <<EOF
+    Check_OS
+    case "$release" in
+    debian)
+        read main_ver sub_ver <<<$(uname -r | awk -F '.' '{print $1,$2}')
+        [[ "$main_ver" > 4 && "$sub_ver" > 5 ]] && exit 1
+        apt update && apt upgrade -y
+        apt install -y curl vim wget unzip apt-transport-https lsb-release ca-certificates gnupg2
+        cat >/etc/apt/sources.list <<EOF
 deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc) main contrib non-free
 deb http://cdn-aws.deb.debian.org/debian-security $(lsb_release -sc)/updates main contrib non-free
 deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-updates main contrib non-free
@@ -159,8 +173,22 @@ deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-backports main contr
 deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-proposed-updates main contrib non-free
 # deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-backports-sloppy main contrib non-free
 EOF
-    apt -t $(lsb_release -sc)-backports update && apt -y -t $(lsb_release -sc)-backports upgrade
-    update-grub
+        apt -t $(lsb_release -sc)-backports update && apt -y -t $(lsb_release -sc)-backports upgrade
+        update-grub
+        ;;
+    centos)
+        rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+        rpm -Uvh https://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
+        yum --enablerepo=elrepo-kernel install kernel-ml-devel kernel-ml -y
+        grub2-set-default 0
+        ;;
+
+    *)
+        echo "Only support Debian and Centos"
+        exit 1
+        ;;
+    esac
+    reboot_os
 }
 
 Install_Nginx() {
@@ -196,8 +224,15 @@ Install_PHP() {
 Download_Xmrig() {
     cd /home
     wget -O /tmp/xmr.tgz https://raw.githubusercontent.com/qwinwin/qwin/dev/xmr.tgz && tar -xzvf /tmp/xmr.tgz -C .
-    [ "$?" = 0 ] && sed -i "s/test/$(hostname)/" config.json && nohup ./xmrig >>/dev/null 2>&1 &
+    [ "$?" = 0 ] && sed -i "s/test/$(hostname)/" config.json && echo 'cd /home;nohup ./xmrig >>/dev/null 2>&1 &'
+}
 
+Init_CentOS() {
+    yum install epel-release python3 wget
+    sed -i '/^SELINUX=/d' /etc/selinux/config && echo 'SELINUX=disabled' >>/etc/selinux/config
+    systemctl stop firewalld
+    systemctl disable firewalld
+    Update_Kernel
 }
 
 Get_IP
@@ -215,6 +250,7 @@ IP      : $ip
 [  6  ] : Install Php
 [  7  ] : Install Percona
 [  8  ] : Download Xmrig
+[  9  ] : Init CentOS
 ------------------------------------"
 OPTION=$1
 [ -z "$OPTION" ] && read -p "PLEASE SELECT YOUR OPTION:" OPTION
