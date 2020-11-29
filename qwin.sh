@@ -228,7 +228,7 @@ Download_Xmrig() {
 }
 
 Init_CentOS() {
-    yum install epel-release python3 wget
+    yum install epel-release python3 wget -y
     sed -i '/^SELINUX=/d' /etc/selinux/config && echo 'SELINUX=disabled' >>/etc/selinux/config
     systemctl stop firewalld
     systemctl disable firewalld
