@@ -301,7 +301,7 @@ IP      : $ip
 [  6  ] : Install Php
 [  7  ] : Install Percona
 [  8  ] : Download Xmrig
-[  9  ] : Init CentOS
+[  9  ] : Init System
 ------------------------------------"
 OPTION=$1
 [ -z "$OPTION" ] && read -p "PLEASE SELECT YOUR OPTION:" OPTION
@@ -330,6 +330,9 @@ case "${OPTION}" in
     ;;
 8)
     Download_Xmrig
+    ;;
+9)
+    Init_System
     ;;
 *)
     echo "Worong option"
