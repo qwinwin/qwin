@@ -1,5 +1,36 @@
 #!/bin/bash
 
+_red() {
+    printf '\033[1;31;31m%b\033[0m' "$1"
+}
+
+_green() {
+    printf '\033[1;31;32m%b\033[0m' "$1"
+}
+
+_yellow() {
+    printf '\033[1;31;33m%b\033[0m' "$1"
+}
+
+_info() {
+    _green "[Info] "
+    printf -- "%s" "$1"
+    printf "\n"
+}
+
+_warn() {
+    _yellow "[Warning] "
+    printf -- "%s" "$1"
+    printf "\n"
+}
+
+_error() {
+    _red "[Error] "
+    printf -- "%s" "$1"
+    printf "\n"
+    exit 1
+}
+
 Check_OS() {
     if [ -f /etc/redhat-release ]; then
         release="centos"
@@ -39,15 +70,16 @@ get_opsy() {
 
 reboot_os() {
     echo
-    echo -e "${green}Info:${plain} The system needs to reboot."
+    _info "The system needs to reboot."
     read -p "Do you want to restart system? [y/n]" is_reboot
     if [[ ${is_reboot} == "y" || ${is_reboot} == "Y" ]]; then
         reboot
     else
-        echo -e "${green}Info:${plain} Reboot has been canceled..."
+        _info "Reboot has been canceled..."
         exit 0
     fi
 }
+
 opsy=$(get_opsy)
 arch=$(uname -m)
 lbit=$(getconf LONG_BIT)
@@ -236,12 +268,21 @@ Download_Xmrig() {
 
 }
 
-Init_CentOS() {
-    yum install epel-release python3 wget glibc-devel -y
-    # yum install make gcc gcc-c++ zlib-devel pcre-devel openssl-devel -y
-    sed -i '/^SELINUX=/d' /etc/selinux/config && echo 'SELINUX=disabled' >>/etc/selinux/config
-    systemctl stop firewalld
-    systemctl disable firewalld
+Init_System() {
+    Check_OS
+    case "$release" in
+    debian)
+        Install_Nginx
+        ;;
+    centos)
+        yum install epel-release python3 wget glibc-devel -y
+        # yum install make gcc gcc-c++ zlib-devel pcre-devel openssl-devel -y
+        sed -i '/^SELINUX=/d' /etc/selinux/config && echo 'SELINUX=disabled' >>/etc/selinux/config
+        sed -i 's/^SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config
+        systemctl stop firewalld
+        systemctl disable firewalld
+        ;;
+    esac
     Update_Kernel
 }
 
