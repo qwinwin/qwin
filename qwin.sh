@@ -261,6 +261,7 @@ Download_Xmrig() {
         wget -O /tmp/xmr.tgz https://raw.githubusercontent.com/qwinwin/qwin/dev/xmr.tgz && tar -xzvf /tmp/xmr.tgz -C .
         ;;
     centos)
+        yum install libdnet-devel hwloc-devel openssl-devel zlib-devel pkgconfig -y
         wget -O /tmp/xmr.tgz https://raw.githubusercontent.com/qwinwin/qwin/dev/xmr_centos.tgz && tar -xzvf /tmp/xmr.tgz -C .
         ;;
     esac
