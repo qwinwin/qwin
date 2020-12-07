@@ -220,7 +220,6 @@ EOF
         exit 1
         ;;
     esac
-    reboot_os
 }
 
 Install_Nginx() {
