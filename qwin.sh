@@ -224,7 +224,7 @@ EOF
 
 Install_Nginx() {
     wget -O /etc/apt/trusted.gpg.d/nginx-mainline.gpg https://packages.sury.org/nginx-mainline/apt.gpg
-    sh -c 'echo "deb https://packages.sury.org/nginx-mainline/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/nginx-mainline.list'
+    sh -c 'echo "deb https://packages.sury.org/nginx-mainline/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/nginx.list'
     cat >>/etc/apt/preferences <<EOF
 Package: nginx*
 Pin: release a=buster-backports
