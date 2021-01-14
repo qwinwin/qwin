@@ -210,7 +210,7 @@ EOF
         apt-get -y -o DPkg::options::="--force-confdef" -o DPkg::options::="--force-confold" install \
             -t $(lsb_release -sc)-backports linux-image-cloud-$(dpkg --print-architecture) \
             linux-headers-cloud-$(dpkg --print-architecture) --install-recommends
-        update-grub
+
         ;;
     centos)
         rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
