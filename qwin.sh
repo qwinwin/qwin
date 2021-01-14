@@ -193,9 +193,10 @@ Update_Kernel() {
     Check_OS
     case "$release" in
     debian)
+        export DEBIAN_FRONTEND=noninteractive
         read main_ver sub_ver <<<$(uname -r | awk -F '.' '{print $1,$2}')
         [[ "$main_ver" > 4 && "$sub_ver" > 5 ]] && exit 1
-        apt-get update && apt-get upgrade -y
+        apt-get update && apt-get upgrade -y -f
         apt-get install -y curl vim wget unzip apt-transport-https lsb-release ca-certificates gnupg2
         cat >/etc/apt/sources.list <<EOF
 deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc) main contrib non-free
@@ -205,7 +206,8 @@ deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-backports main contr
 deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-proposed-updates main contrib non-free
 # deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-backports-sloppy main contrib non-free
 EOF
-        apt-get -t $(lsb_release -sc)-backports update && apt-get -y -t $(lsb_release -sc)-backports upgrade
+        apt-get -t $(lsb_release -sc)-backports update
+        apt-get -y -o DPkg::options::="--force-confdef" -o DPkg::options::="--force-confold" -t $(lsb_release -sc)-backports upgrade
         update-grub
         ;;
     centos)
