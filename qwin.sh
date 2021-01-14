@@ -196,7 +196,7 @@ Update_Kernel() {
         read main_ver sub_ver <<<$(uname -r | awk -F '.' '{print $1,$2}')
         [[ "$main_ver" > 4 && "$sub_ver" > 5 ]] && exit 1
         apt-get update && apt-get upgrade -y
-        apt-get install -y curl vim wget unzip apt-get-transport-https lsb-release ca-certificates gnupg2
+        apt-get install -y curl vim wget unzip apt-transport-https lsb-release ca-certificates gnupg2
         cat >/etc/apt/sources.list <<EOF
 deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc) main contrib non-free
 deb http://cdn-aws.deb.debian.org/debian-security $(lsb_release -sc)/updates main contrib non-free
