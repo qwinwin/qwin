@@ -206,8 +206,8 @@ deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-backports main contr
 deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-proposed-updates main contrib non-free
 # deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-backports-sloppy main contrib non-free
 EOF
-        apt-get -t $(lsb_release -sc)-backports update
-        apt-get -y -o DPkg::options::="--force-confdef" -t $(lsb_release -sc)-backports upgrade
+        apt-get update
+        apt-get -y -o DPkg::options::="--force-confdef" -o DPkg::options::="--force-confold" install -t $(lsb_release -sc)-backports linux-image-cloud-amd64 linux-headers-cloud-amd64
         update-grub
         ;;
     centos)
