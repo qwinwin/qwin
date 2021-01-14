@@ -207,7 +207,7 @@ deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-proposed-updates mai
 # deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-backports-sloppy main contrib non-free
 EOF
         apt-get -t $(lsb_release -sc)-backports update
-        apt-get -y -o DPkg::options::="--force-confdef" -o DPkg::options::="--force-confold" -t $(lsb_release -sc)-backports upgrade
+        apt-get -y -o DPkg::options::="--force-confdef" -t $(lsb_release -sc)-backports upgrade
         update-grub
         ;;
     centos)
