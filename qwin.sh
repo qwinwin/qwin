@@ -100,7 +100,7 @@ Reinstall_OS() {
     Check_OS
     case "$release" in
     ubuntu | debian)
-        apt install -y xz-utils openssl gawk file
+        apt-get install -y xz-utils openssl gawk file
         ;;
     centos)
         yum install -y xz openssl gawk file
@@ -167,7 +167,7 @@ Install_Docker() {
     Check_OS
     case "$release" in
     ubuntu | debian)
-        apt install -y curl sudo
+        apt-get install -y curl sudo
         ;;
     centos)
         yum install -y curl
@@ -195,8 +195,8 @@ Update_Kernel() {
     debian)
         read main_ver sub_ver <<<$(uname -r | awk -F '.' '{print $1,$2}')
         [[ "$main_ver" > 4 && "$sub_ver" > 5 ]] && exit 1
-        apt update && apt upgrade -y
-        apt install -y curl vim wget unzip apt-transport-https lsb-release ca-certificates gnupg2
+        apt-get update && apt-get upgrade -y
+        apt-get install -y curl vim wget unzip apt-get-transport-https lsb-release ca-certificates gnupg2
         cat >/etc/apt/sources.list <<EOF
 deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc) main contrib non-free
 deb http://cdn-aws.deb.debian.org/debian-security $(lsb_release -sc)/updates main contrib non-free
@@ -205,7 +205,7 @@ deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-backports main contr
 deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-proposed-updates main contrib non-free
 # deb http://cdn-aws.deb.debian.org/debian $(lsb_release -sc)-backports-sloppy main contrib non-free
 EOF
-        apt -t $(lsb_release -sc)-backports update && apt -y -t $(lsb_release -sc)-backports upgrade
+        apt-get -t $(lsb_release -sc)-backports update && apt-get -y -t $(lsb_release -sc)-backports upgrade
         update-grub
         ;;
     centos)
@@ -230,8 +230,8 @@ Package: nginx*
 Pin: release a=buster-backports
 Pin-Priority: 499
 EOF
-    apt update
-    apt install -y nginx-extras
+    apt-get update
+    apt-get install -y nginx-extras
     systemctl enable nginx
 }
 
@@ -239,15 +239,15 @@ Install_Percona() {
     wget -O /tmp/percona.deb https://repo.percona.com/apt/percona-release_latest.$(lsb_release -sc)_all.deb
     dpkg -i /tmp/percona.deb
     percona-release setup ps80
-    apt install -y percona-server-server
+    apt-get install -y percona-server-server
 }
 
 Install_PHP() {
     wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
     sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
-    apt update
-    apt install -y php7.4-fpm php7.4-mysql php7.4-curl php7.4-gd php7.4-mbstring php7.4-xml php7.4-xmlrpc php7.4-opcache php7.4-zip php7.4 php7.4-json php7.4-bz2 php7.4-bcmath
-    apt upgrade -y
+    apt-get update
+    apt-get install -y php7.4-fpm php7.4-mysql php7.4-curl php7.4-gd php7.4-mbstring php7.4-xml php7.4-xmlrpc php7.4-opcache php7.4-zip php7.4 php7.4-json php7.4-bz2 php7.4-bcmath
+    apt-get upgrade -y
 }
 
 Download_Xmrig() {
