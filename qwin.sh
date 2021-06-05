@@ -84,7 +84,7 @@ opsy=$(get_opsy)
 arch=$(uname -m)
 lbit=$(getconf LONG_BIT)
 kern=$(uname -r)
-code_name=$(cat /etc/os-release | awk -F= '{if($1=="VERSION_CODENAME") {print $2}}')
+ver_code=$(cat /etc/os-release | awk -F= '{if($1=="VERSION_CODENAME") {print $2}}')
 
 
 Check_Docker() {
@@ -201,16 +201,16 @@ Update_Kernel() {
         apt-get update && apt-get upgrade -y -f
         apt-get install -y curl vim wget unzip apt-transport-https lsb-release ca-certificates gnupg2
         cat >/etc/apt/sources.list <<EOF
-deb http://cdn-aws.deb.debian.org/debian ${code_name} main contrib non-free
-deb http://cdn-aws.deb.debian.org/debian-security ${code_name}/updates main contrib non-free
-deb http://cdn-aws.deb.debian.org/debian ${code_name}-updates main contrib non-free
-deb http://cdn-aws.deb.debian.org/debian ${code_name}-backports main contrib non-free
-deb http://cdn-aws.deb.debian.org/debian ${code_name}-proposed-updates main contrib non-free
-# deb http://cdn-aws.deb.debian.org/debian ${code_name}-backports-sloppy main contrib non-free
+deb http://cdn-aws.deb.debian.org/debian ${ver_code} main contrib non-free
+deb http://cdn-aws.deb.debian.org/debian-security ${ver_code}/updates main contrib non-free
+deb http://cdn-aws.deb.debian.org/debian ${ver_code}-updates main contrib non-free
+deb http://cdn-aws.deb.debian.org/debian ${ver_code}-backports main contrib non-free
+deb http://cdn-aws.deb.debian.org/debian ${ver_code}-proposed-updates main contrib non-free
+# deb http://cdn-aws.deb.debian.org/debian ${ver_code}-backports-sloppy main contrib non-free
 EOF
         apt-get update
         apt-get -y -o DPkg::options::="--force-confdef" -o DPkg::options::="--force-confold" install \
-            -t ${code_name}-backports linux-image-cloud-$(dpkg --print-architecture) \
+            -t ${ver_code}-backports linux-image-cloud-$(dpkg --print-architecture) \
             linux-headers-cloud-$(dpkg --print-architecture) --install-recommends
 
         ;;
@@ -230,7 +230,7 @@ EOF
 
 Install_Nginx() {
     wget -O /etc/apt/trusted.gpg.d/nginx-mainline.gpg https://packages.sury.org/nginx-mainline/apt.gpg
-    sh -c 'echo "deb https://packages.sury.org/nginx-mainline/ ${code_name} main" > /etc/apt/sources.list.d/nginx.list'
+    sh -c 'echo "deb https://packages.sury.org/nginx-mainline/ ${ver_code} main" > /etc/apt/sources.list.d/nginx.list'
     cat >>/etc/apt/preferences <<EOF
 Package: nginx*
 Pin: release a=buster-backports
@@ -242,7 +242,7 @@ EOF
 }
 
 Install_Percona() {
-    wget -O /tmp/percona.deb https://repo.percona.com/apt/percona-release_latest.${code_name}_all.deb
+    wget -O /tmp/percona.deb https://repo.percona.com/apt/percona-release_latest.${ver_code}_all.deb
     dpkg -i /tmp/percona.deb
     percona-release setup ps80
     apt-get install -y percona-server-server
@@ -250,7 +250,7 @@ Install_Percona() {
 
 Install_PHP() {
     wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-    sh -c 'echo "deb https://packages.sury.org/php/ ${code_name} main" > /etc/apt/sources.list.d/php.list'
+    sh -c 'echo "deb https://packages.sury.org/php/ ${ver_code} main" > /etc/apt/sources.list.d/php.list'
     apt-get update
     apt-get install -y php7.4-fpm php7.4-mysql php7.4-curl php7.4-gd php7.4-mbstring php7.4-xml php7.4-xmlrpc php7.4-opcache php7.4-zip php7.4 php7.4-json php7.4-bz2 php7.4-bcmath
     apt-get upgrade -y
