@@ -120,12 +120,13 @@ Default passwd:Vicer
 Option[3][5]passwd:
 cxthhhhh.com
 --------------------
-[1] Ubuntu 18.04 x64
+[1] Debian 11 x64
 [2] Debian 10 x64
 [3] CentOS 7.X x64
 [4] CentOS 6.9 x64
 [5] Windows Server 2019
 [6] Debian 9 x64
+[7] Ubuntu 18.04 x64
 --------------------
 Enter the number:"
     read System_ID
@@ -136,7 +137,7 @@ Enter the number:"
 
     case "$System_ID" in
     1)
-        bash reins2.sh -u 18.04 -v 64 -a -p "$Set_pass"
+        bash reins2.sh -d bullseye -v 64 -a -p "$Set_pass" --mirror 'http://cdn-aws.deb.debian.org/debian'
         ;;
     2)
         bash reins2.sh -d 10 -v 64 -a -p "$Set_pass" --mirror 'http://cdn-aws.deb.debian.org/debian'
@@ -152,6 +153,9 @@ Enter the number:"
         ;;
     6)
         bash reins2.sh -d 9 -v 64 -a -p "$Set_pass"
+        ;;
+    7)
+        bash reins2.sh -u 18.04 -v 64 -a -p "$Set_pass"
         ;;
     *)
         echo "Wrong option"
