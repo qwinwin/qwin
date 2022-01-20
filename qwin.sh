@@ -233,7 +233,7 @@ EOF
 }
 
 Install_Nginx() {
-    apt-get -y install apt-transport-https lsb-release ca-certificates curl
+    apt-get -y install apt-transport-https ca-certificates curl
     wget -O /etc/apt/trusted.gpg.d/nginx-mainline.gpg https://packages.sury.org/nginx-mainline/apt.gpg
     echo "deb https://packages.sury.org/nginx-mainline/ ${ver_code} main" > /etc/apt/sources.list.d/nginx.list
     apt-get update
