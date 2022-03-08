@@ -32,7 +32,7 @@ def main(duration):
             f"{item['friendly_name']:<10} {item['url']:<15} {item['logs'][0]['duration']/3600:.2f}"
         )
         try:
-            # delete monitor if down duration longer than 60 hours
+            # Remove monitors if downtime exceeds 60 hours
             if item['logs'][0]['duration'] > duration * 3600:
                 del_data = {'api_key': api_key, 'id': item['id']}
                 del_resp = httpx.post(del_url, headers=headers, data=del_data)
